@@ -66,4 +66,4 @@ In the scripts directory there are some useful scripts used to create and build 
 Author
 -------
 
-Igor Brandao @ibrand
+Igor Brandao @mrbrandao

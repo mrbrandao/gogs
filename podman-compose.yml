@@ -20,6 +20,9 @@ services:
 
     gogs:
       image: quay.io/ibrandao/gogs:latest
+      build:
+        context: .
+        dockerfile: Dockerfile
       ports:
         - '2222:22'
         - '3000:3000'

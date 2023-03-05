@@ -51,6 +51,7 @@ COPY --from=builder /gogs.io/gogs/gogs .
 # Configure LibC Name Service
 RUN cp ./docker/nsswitch.conf /etc/nsswitch.conf
 RUN ./docker/finalize.sh
+RUN mkdir -p /backup;chown -R git: /backup
 
 # Configure Docker Container
 VOLUME ["/data", "/backup"]

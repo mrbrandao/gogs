@@ -9,7 +9,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  PSQL_IMAGE: psql
+  PSQL_IMAGE: ${{ github.repository }}-psql
   
 jobs:
   build-gogs:

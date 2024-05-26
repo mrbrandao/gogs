@@ -61,16 +61,32 @@ This project is based on the official [postgresql](...) from docker hub and it's
 Custom Scripts
 --------------
 
-In the scripts directory there are some useful scripts used to create and build this project.  
+Tthere are some useful scripts used to create and build this project.  
 
 * `init-user-db.sh` - this script is resposable to initialize custom `sql` commands in the postgres first run. This will create the gogs user and grant admin permissions to it based on the `GOGS_*` environments.  
+* `scripts/sync.sh` - sync custom themes and templates to gogs data
 * `scripts/bkp.sh` - this script is a demonstration of how to use backup and restore with gogs  
 **The backup Usage:**  
 Gogs backup and restore is a built-in functionality, however use it with containers can be trick regarding some clean-ups that should be done.  
 use `./scripts/bkp.sh help` to get the CLI usage help.  
   
-Deploy
--------
+
+Custom Templates
+----------------
+
+By default this gogs version is using the custom dark theme from evang, it also
+use a custom gopher favicon <img src=./custom/public/img/gopher-classic.png>  
+In order to properly inject the custom theme the head.tmpl is being used.  
+[Read more on how to use custom templates in the official gogs documentation.](https://gogs.io/docs/features/custom_template)
+
+A set of additional images to be used can be found in the [directory
+img](./custom/public/img).  
+
+The script `sync.sh` is being used as an optional command in the docker
+entrypoint to properly sync the theme.
+
+K8S Workloads
+-------------
 
 The `deployments` directory contains some basic examples on how to deploy this project on k8s.  
 The `gogs-app` is a StatefulSet resource deploying the `gogs-app` and `postgresql` in the same pod. Postgres is working as a sidecar container for the gogs-app in order to minify and simplify the architecture.  

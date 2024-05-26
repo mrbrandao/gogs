@@ -36,17 +36,21 @@ RUN if [ `uname -m` == "aarch64" ] ; then \
 ENV GOGS_CUSTOM /data/gogs
 
 # Customizing templates
-RUN mkdir -p /data/gogs/public/img ;\
-    mkdir -p /data/gogs/public/css ;\
-    mkdir -p /templates/inject
-COPY custom/public/css/dark-theme-evang.css /data/gogs/public/css/custom.css
-COPY custom/templates/inject/head.tmpl /data/gogs/templates/inject/head.tmpl
-COPY custom/public/img/gopher-forest-reduce.png /data/gogs/public/img/gogs-hero.png
-COPY custom/public/img/gopher-classic.png /data/gogs/public/img/favicon.png
+RUN mkdir -p /custom/theme/gogs/public/img ;\
+    mkdir -p /custom/theme/gogs/public/css ;\
+    mkdir -p /custom/templates/inject
+COPY custom/public/img/gopher-forest-reduce.png /custom/theme/gogs/public/img/gogs-hero.png
+COPY custom/public/img/gopher-classic.png /custom/theme/gogs/public/img/favicon.png
+COPY custom/public/css/dark-theme-evang.css /custom/theme/gogs/public/css/custom.css
+COPY custom/templates/inject/head.tmpl /custom/theme/gogs/templates/inject/head.tmpl
 
 WORKDIR /app/gogs
 COPY --from=builder /gogs.io/gogs/docker ./docker
 COPY --from=builder /gogs.io/gogs/gogs .
+
+# adding startup plugin to sync themes
+COPY scripts/sync.sh /usr/local/bin/sync.sh
+RUN chmod +x /usr/local/bin/sync.sh
 
 # Configure LibC Name Service
 RUN cp ./docker/nsswitch.conf /etc/nsswitch.conf
@@ -58,4 +62,4 @@ VOLUME ["/data", "/backup"]
 EXPOSE 22 3000
 HEALTHCHECK CMD (curl -o /dev/null -sS http://localhost:3000/healthcheck) || exit 1
 ENTRYPOINT ["/app/gogs/docker/start.sh"]
-CMD ["/bin/s6-svscan", "/app/gogs/docker/s6/"]
+CMD ["/usr/local/bin/sync.sh"]

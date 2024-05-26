@@ -1,35 +1,33 @@
 ---
 version: '3'
 services:
+  db:
+    #image: docker.io/library/postgres:10-alpine3.16
+    image: ghcr.io/mrbrandao/gogs-psql:latest
+    build:
+      context: .
+      dockerfile: db/Dockerfile
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: test
+      GOGS_PASSWORD: test
+      GOGS_USER: gogs
+      POSTGRES_DB: gogs
+    volumes:
+      - psql_data:/var/lib/postgresql/data
 
-    db:
-      #image: docker.io/library/postgres:10-alpine3.16
-      image: quay.io/ibrandao/gogs-db:latest
-      build: 
-        context: .
-        dockerfile: db/Dockerfile
-      ports: 
-        - "5432:5432"
-      environment:
-        POSTGRES_PASSWORD: test
-        GOGS_PASSWORD: test
-        GOGS_USER: gogs
-        POSTGRES_DB: gogs
-      volumes:
-        - psql_data:/var/lib/postgresql/data
-
-    gogs:
-      image: quay.io/ibrandao/gogs:latest
-      build:
-        context: .
-        dockerfile: Dockerfile
-      ports:
-        - '2222:22'
-        - '3000:3000'
-      volumes:
-        - gogs_data:/data
-        - gogs_bkp:/backup
-
+  gogs:
+    image: ghcr.io/mrbrandao/gogs:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '2222:22'
+      - '3000:3000'
+    volumes:
+      - gogs_data:/data
+      - gogs_bkp:/backup
 volumes:
   gogs_data:
   gogs_bkp:

@@ -74,8 +74,9 @@ use `./scripts/bkp.sh help` to get the CLI usage help.
 Custom Templates
 ----------------
 
-By default this gogs version is using the custom dark theme from evang, it also
-use a custom gopher favicon <img src=./custom/public/img/gopher-classic.png>  
+By default this gogs version is using the custom dark theme from evang, it's also
+using a set of custom images such as this gopher as favicon: <img src=./custom/public/img/gopher-classic.png width=30px>  
+  
 In order to properly inject the custom theme the head.tmpl is being used.  
 [Read more on how to use custom templates in the official gogs documentation.](https://gogs.io/docs/features/custom_template)
 

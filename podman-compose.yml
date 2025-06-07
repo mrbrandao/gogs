@@ -16,6 +16,10 @@ services:
       POSTGRES_DB: gogs
     volumes:
       - psql_data:/var/lib/postgresql/data
+    networks:
+      gogs_net:
+        aliases:
+          - db
 
   gogs:
     image: ghcr.io/mrbrandao/gogs:latest
@@ -28,7 +32,16 @@ services:
     volumes:
       - gogs_data:/data
       - gogs_bkp:/backup
+    networks:
+      - gogs_net
+    depends_on:
+      - db
+
 volumes:
   gogs_data:
   gogs_bkp:
   psql_data:
+
+networks:
+  gogs_net:
+    driver: bridge

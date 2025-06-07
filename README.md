@@ -61,7 +61,7 @@ This project is based on the official [postgresql](...) from docker hub and it's
 Custom Scripts
 --------------
 
-Tthere are some useful scripts used to create and build this project.  
+There are some useful scripts used to create and build this project.  
 
 * `init-user-db.sh` - this script is resposable to initialize custom `sql` commands in the postgres first run. This will create the gogs user and grant admin permissions to it based on the `GOGS_*` environments.  
 * `scripts/sync.sh` - sync custom themes and templates to gogs data
